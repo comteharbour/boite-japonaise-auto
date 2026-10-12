@@ -37,7 +37,7 @@ def _circleTraceCentered(parameters=parameters) -> Circle:
     return Circle.fromCoords(w/2)
 
 @dataclass (frozen=True)
-class FakeCut:
+class FakeCutDimensions:
 
     @property
     def height(self) -> float:
@@ -232,11 +232,14 @@ class SlidingPlateBuilder:
             case 4: return _squareTraceCentered() + originToCenter
 
     # TODO : distinguer le placement et le nombre selon la plaque
-    def _traceCoverWood(self) -> Group:
-        fakeCut = FakeCut()
+    def _traceCoverWood(self) -> Group | None:
+
+        if self.plateNumber == 4: return None
+
+        dimensions = FakeCutDimensions()
         width = self._plateWidth - 2 * parameters.coverPadding
-        fakeCuts = []
-        for n in range(fakeCut.passesCount):
+        fakeCutStrokes = []
+        for n in range(dimensions.passesCount):
             if n % 2 == 0:
                 x1 = 0
                 x2 = width
@@ -244,14 +247,18 @@ class SlidingPlateBuilder:
                 x1 = width
                 x2 = 0
 
-            y = fakeCut.initialY + parameters.traceCutWidth * n
+            y = dimensions.initialY + parameters.traceCutWidth * n
 
-            fakeCuts.append(
+            fakeCutStrokes.append(
                 Line.fromCoords((x1, y), (x2, y))
                 + Point(self._widthDifference, self._heightDifference)
             )
+        fakeCut = Group(tuple(fakeCutStrokes))
+        if self.plateNumber > 1 : return fakeCut
 
-        return Group(tuple(fakeCuts))
+        lowerFakeCut = fakeCut.flipVertical(yHorizontalMirror=self._plateHeight / 2)
+        return Group((fakeCut, lowerFakeCut))
+        
     
     def _traceCuts(self) -> Group | None:
         self._traceValidation()

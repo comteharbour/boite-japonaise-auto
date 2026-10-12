@@ -59,6 +59,9 @@ sliderHeight3 = sliderHeight.moveBelow(sliderHeight2)
 sliderHeight4 = sliderHeight.moveBelow(sliderHeight3)
 
 slideCover1 = SlidingPlateBuilder(1, PlateType.COVER).build().placeUpLeftAtShape(innerPlate4).moveBelow(innerPlate3)
+slideCover2 = SlidingPlateBuilder(2, PlateType.COVER).build().placeUpLeftAtShape(slideCover1).moveRightTo(slideCover1)
+slideCover3 = SlidingPlateBuilder(3, PlateType.COVER).build().placeUpLeftAtShape(slideCover2).moveBelow(slideCover2)
+slideCover4 = SlidingPlateBuilder(4, PlateType.COVER).build().placeUpLeftAtShape(slideCover1).moveBelow(slideCover1)
 
 try:
     svg = generate_svg(
@@ -95,6 +98,9 @@ try:
             sliderHeight3.getSVG(),
             sliderHeight4.getSVG(),
             slideCover1.getSVG(),
+            slideCover2.getSVG(),
+            slideCover3.getSVG(),
+            slideCover4.getSVG(),
         )
     )
 except GeometryError as error:

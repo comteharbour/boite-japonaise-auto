@@ -19,7 +19,7 @@ class Piece:
 
     @property
     def boundingBox(self) -> BoundingBox:
-        return self.allCuts.boundingBox
+        return self.allSVGObjects.boundingBox
 
     def _applyToCuts(self, operation) -> Self:
 
