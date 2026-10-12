@@ -1,8 +1,8 @@
 from enum import Enum
 from dataclasses import dataclass
-import math
 from parameters import parameters
 from elements.tenons import tenonHole
+from elements.fakeCuts import FakeCutDimensions
 from drawing import Point, Rectangle, Line, Circle, GeometryError, Group, SVGObject
 from .piece import Piece
 
@@ -35,25 +35,6 @@ def _squareTraceCentered(parameters=parameters) -> Rectangle:
 def _circleTraceCentered(parameters=parameters) -> Circle:
     w = parameters.traceFiguresWidth
     return Circle.fromCoords(w/2)
-
-@dataclass (frozen=True)
-class FakeCutDimensions:
-
-    @property
-    def height(self) -> float:
-        return parameters.coverWoodThickness + parameters.structuralWoodThickness
-
-    @property
-    def passesCount(self) -> int:
-        return math.ceil(self.height / parameters.traceCutWidth)
-        
-    @property
-    def initialY(self) -> float:
-        return (
-            self.height
-            - parameters.traceCutWidth * self.passesCount
-            + parameters.traceCutWidth / 2
-        )
 
 class PlateType(Enum):
     OUTER = "outer"
