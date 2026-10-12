@@ -1,2 +1,16 @@
-/.DS_Store
-/__pycache__
+# Python
+__pycache__/
+*.py[cod]
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# Environnement virtuel
+.venv/
+venv/
+
+# boite
+boite.svg
