@@ -10,12 +10,12 @@ class Piece:
     outerCuts: SVGObject | None
 
     @property
-    def allCuts(self) -> Group:
-        group = []
-        if not self.traceCuts == None: group.append(self.traceCuts)
-        if not self.innerCuts == None: group.append(self.innerCuts)
-        if not self.outerCuts == None: group.append(self.outerCuts)
-        return Group(tuple(group))
+    def allSVGObjects(self) -> Group:
+        objects = []
+        if not self.traceCuts is None: objects.append(self.traceCuts)
+        if not self.innerCuts is None: objects.append(self.innerCuts)
+        if not self.outerCuts is None: objects.append(self.outerCuts)
+        return Group(tuple(objects))
 
     @property
     def boundingBox(self) -> BoundingBox:
@@ -54,31 +54,31 @@ class Piece:
         )
 
     def rotate90xtoy(self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return self._applyToCuts(
             lambda cuts: cuts.rotate90xtoy(pivot)
         )
 
     def rotate180(self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return self._applyToCuts(
             lambda cuts: cuts.rotate180(pivot)
         )
 
     def rotate90ytox(self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return self._applyToCuts(
             lambda cuts: cuts.rotate90ytox(pivot)
         )
 
     def flipHorizontal(self, xVerticalMirror: float | None = None) -> Self:
-        if xVerticalMirror == None: xVerticalMirror = self.boundingBox.center.x
+        if xVerticalMirror is None: xVerticalMirror = self.boundingBox.center.x
         return self._applyToCuts(
             lambda cuts: cuts.flipHorizontal(xVerticalMirror)
         )
 
     def flipVertical(self, yHorizontalMirror: float | None = None) -> Self:
-        if yHorizontalMirror == None: yHorizontalMirror = self.boundingBox.center.y
+        if yHorizontalMirror is None: yHorizontalMirror = self.boundingBox.center.y
         return self._applyToCuts(
             lambda cuts: cuts.flipVertical(yHorizontalMirror)
         )
@@ -87,7 +87,7 @@ class Piece:
         return self - self.boundingBox.upLeft
 
     def placeUpLeftAtPoint(self, point: Point | None = None) -> Self:
-        if point == None: point = Point(0, 0)
+        if point is None: point = Point(0, 0)
         return self.placeUpLeftAtOrigin() + point
 
     def placeUpLeftAtShape(self, shape: SVGObject) -> Self:

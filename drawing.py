@@ -68,7 +68,7 @@ class Point:
         return Point(2 * pivot.x - self.x, 2 * pivot.y - self.y)
 
     def rotate90ytox(self, pivot: Self) -> Self:
-        return Point(pivot.x - (self.y - pivot.y), pivot.y + (self.x - pivot.x))
+        return Point(pivot.x + (self.y - pivot.y), pivot.y - (self.x - pivot.x))
     
     def flipHorizontal(self, xVerticalMirror=0) -> Self :
         return Point(2 * xVerticalMirror - self.x, self.y)
@@ -152,7 +152,7 @@ class SVGObject (ABC):
         return self - self.boundingBox.upLeft
 
     def placeUpLeftAtPoint(self, point: Point) -> Self:
-        return self.placeUpLeftAtOrigin() - point
+        return self.placeUpLeftAtOrigin() + point
 
     @abstractmethod
     def getSVG(self, laserType: LaserType):
@@ -161,6 +161,12 @@ class SVGObject (ABC):
 @dataclass (frozen=True)
 class Group (SVGObject):
     children: tuple[SVGObject, ...]
+
+    def __post_init__(self):
+        if not self.children:
+            raise GeometryError(
+                "Empty group is forbidden"
+            )
 
     def __add__(self, vector) -> Self:
         return Group(
@@ -173,31 +179,31 @@ class Group (SVGObject):
         )
 
     def rotate90xtoy(self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return Group(
             tuple(obj.rotate90xtoy(pivot) for obj in self.children)
         )
     
     def rotate180(self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return Group(
             tuple(obj.rotate180(pivot) for obj in self.children)
         )
     
     def rotate90ytox(self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return Group(
             tuple(obj.rotate90ytox(pivot) for obj in self.children)
         )
     
     def flipHorizontal(self, xVerticalMirror: float | None = None) -> Self:
-        if xVerticalMirror == None: xVerticalMirror = self.boundingBox.center.x
+        if xVerticalMirror is None: xVerticalMirror = self.boundingBox.center.x
         return Group(
             tuple(obj.flipHorizontal(xVerticalMirror) for obj in self.children)
         )
     
     def flipVertical(self, yHorizontalMirror: float | None = None) -> Self:
-        if yHorizontalMirror == None: yHorizontalMirror = self.boundingBox.center.y
+        if yHorizontalMirror is None: yHorizontalMirror = self.boundingBox.center.y
         return Group(
             tuple(obj.flipVertical(yHorizontalMirror) for obj in self.children)
         )
@@ -267,7 +273,7 @@ class PolyLine:
         )
 
     def rotate90xtoy (self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return PolyLine(
             tuple(
                 point.rotate90xtoy(pivot)
@@ -276,7 +282,7 @@ class PolyLine:
         )
 
     def rotate180 (self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return PolyLine(
             tuple(
                 point.rotate180(pivot)
@@ -285,7 +291,7 @@ class PolyLine:
         )
 
     def rotate90ytox (self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return PolyLine(
             tuple(
                 point.rotate90ytox(pivot)
@@ -294,7 +300,7 @@ class PolyLine:
         )
 
     def flipHorizontal (self, xVerticalMirror: float | None = None) -> Self:
-            if xVerticalMirror == None: xVerticalMirror = self.boundingBox.center.x
+            if xVerticalMirror is None: xVerticalMirror = self.boundingBox.center.x
             return PolyLine(
                 tuple(
                     point.flipHorizontal(xVerticalMirror)
@@ -303,7 +309,7 @@ class PolyLine:
             )
 
     def flipVertical (self, yHorizontalMirror: float | None = None) -> Self:
-        if yHorizontalMirror == None: yHorizontalMirror = self.boundingBox.center.y
+        if yHorizontalMirror is None: yHorizontalMirror = self.boundingBox.center.y
         return PolyLine(
             tuple(
                 point.flipVertical(yHorizontalMirror)
@@ -475,7 +481,7 @@ class Rectangle (SVGObject):
             )
     
     def rotate90xtoy(self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return Rectangle(
             width=self.height,
             height=self.width,
@@ -485,7 +491,7 @@ class Rectangle (SVGObject):
         )
 
     def rotate180(self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return Rectangle(
             width=self.width,
             height=self.height,
@@ -495,7 +501,7 @@ class Rectangle (SVGObject):
         )
 
     def rotate90ytox(self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return Rectangle(
             width=self.height,
             height=self.width,
@@ -505,7 +511,7 @@ class Rectangle (SVGObject):
         )
 
     def flipHorizontal(self, xVerticalMirror: float | None = None) -> Self:
-        if xVerticalMirror == None: xVerticalMirror = self.boundingBox.center.x
+        if xVerticalMirror is None: xVerticalMirror = self.boundingBox.center.x
         ox = 2 * xVerticalMirror - (self.origin.x + self.width)
         oy = self.origin.y
         return Rectangle(
@@ -517,7 +523,7 @@ class Rectangle (SVGObject):
         )
 
     def flipVertical(self, yHorizontalMirror: float | None = None) -> Self:
-        if yHorizontalMirror == None: yHorizontalMirror = self.boundingBox.center.y
+        if yHorizontalMirror is None: yHorizontalMirror = self.boundingBox.center.y
         ox = self.origin.x
         oy = 2 * yHorizontalMirror - (self.origin.y + self.height)
         return Rectangle(
@@ -578,35 +584,35 @@ class Circle (SVGObject):
             )
 
     def rotate90xtoy(self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return Circle(
             self.radius,
             self.center.rotate90xtoy(pivot)
         )
 
     def rotate180(self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return Circle(
             self.radius,
             self.center.rotate180(pivot)
         )
 
     def rotate90ytox(self, pivot: Point | None = None) -> Self:
-        if pivot == None: pivot = self.boundingBox.center
+        if pivot is None: pivot = self.boundingBox.center
         return Circle(
             self.radius,
             self.center.rotate90ytox(pivot)
         )
 
     def flipHorizontal(self, xVerticalMirror: float | None = None) -> Self:
-        if xVerticalMirror == None: xVerticalMirror = self.boundingBox.center.x
+        if xVerticalMirror is None: xVerticalMirror = self.boundingBox.center.x
         return Circle(
             self.radius,
             self.center.flipHorizontal(xVerticalMirror)
         )
 
     def flipVertical(self, yHorizontalMirror: float | None = None) -> Self:
-        if yHorizontalMirror == None: yHorizontalMirror = self.boundingBox.center
+        if yHorizontalMirror is None: yHorizontalMirror = self.boundingBox.center.y
         return Circle(
             self.radius,
             self.center.flipVertical(yHorizontalMirror)
