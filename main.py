@@ -2,6 +2,7 @@ from parameters import parameters
 from drawing import group, generate_svg, GeometryError
 from pieces import (
     SidePlateBuilder,
+    SidePlateCoverBuilder,
     InnerBoxBuilder,
     SlidingPlateBuilder,
     PlateType,
@@ -63,6 +64,10 @@ slideCover2 = SlidingPlateBuilder(2, PlateType.COVER).build().placeUpLeftAtShape
 slideCover3 = SlidingPlateBuilder(3, PlateType.COVER).build().placeUpLeftAtShape(slideCover2).moveBelow(slideCover2)
 slideCover4 = SlidingPlateBuilder(4, PlateType.COVER).build().placeUpLeftAtShape(slideCover1).moveBelow(slideCover1)
 
+sidePlateCover = SidePlateCoverBuilder().build().placeUpLeftAtShape(slideCover2).moveRightTo(slideCover2)
+sidePlateCover1 = sidePlateCover
+sidePlateCover2 = sidePlateCover.moveBelow(sidePlateCover1)
+
 try:
     svg = generate_svg(
         (
@@ -101,6 +106,8 @@ try:
             slideCover2.getSVG(),
             slideCover3.getSVG(),
             slideCover4.getSVG(),
+            sidePlateCover1.getSVG(),
+            sidePlateCover2.getSVG()
         )
     )
 except GeometryError as error:

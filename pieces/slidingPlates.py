@@ -228,7 +228,7 @@ class SlidingPlateBuilder:
                 x1 = width
                 x2 = 0
 
-            y = dimensions.initialY + parameters.traceCutWidth * n
+            y = dimensions.initialEdgeDistance + parameters.traceCutWidth * n
 
             fakeCutStrokes.append(
                 Line.fromCoords((x1, y), (x2, y))

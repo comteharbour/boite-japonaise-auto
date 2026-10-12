@@ -14,7 +14,7 @@ class FakeCutDimensions:
         return math.ceil(self.height / parameters.traceCutWidth)
         
     @property
-    def initialY(self) -> float:
+    def initialEdgeDistance(self) -> float:
         return (
             self.height
             - parameters.traceCutWidth * self.passesCount

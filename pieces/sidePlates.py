@@ -3,7 +3,8 @@ from parameters import parameters
 from .piece import Piece
 from elements.tenons import tenonHole
 from elements.spacers import sliderSpacer, innerBoxSideSpacer, innerBoxBottomSpacer, HoleSpacerFromTenonSpacer
-from drawing import Rectangle, Point, Group
+from elements.fakeCuts import FakeCutDimensions
+from drawing import Rectangle, Line, Point, Group
 
 @dataclass (frozen=True)
 class SidePlateBuilder:
@@ -182,3 +183,45 @@ class SidePlateBuilder:
             innerCuts=self._inner_cuts(parameters),
             outerCuts=self._outer_cuts(parameters)
         )
+
+@dataclass (frozen=True)
+class SidePlateCoverBuilder:
+
+    @property
+    def _width(self) -> float:
+        return parameters.fullLength - 2 * parameters.coverPadding
+
+    @property
+    def _height(self) -> float:
+        return parameters.fullHeight - 2 * parameters.coverPadding
+
+    def _outer_cuts(self) -> Rectangle:
+        return Rectangle(self._width, self._height)
+
+    @property
+    def fakeCutsDimentions(self) -> FakeCutDimensions:
+        return FakeCutDimensions()
+    
+    def _4corners(self, n: int) -> tuple:
+        initialDistance = self.fakeCutsDimentions.initialEdgeDistance
+        traceWidth = parameters.traceCutWidth
+        left = initialDistance + n * traceWidth
+        right = self._width - initialDistance - n * traceWidth
+        up = initialDistance + n * traceWidth
+        down = self._height - initialDistance - n * traceWidth
+
+        return ((right, up), (right, down), (left, down), (left, up + traceWidth))
+
+    def _fake_cuts(self) -> Line:
+        count = self.fakeCutsDimentions.passesCount
+        corners = ((0, self.fakeCutsDimentions.initialEdgeDistance),)
+        for n in range(count):
+            corners += self._4corners(n)
+        return Line.fromCoords(*corners)
+
+    def build(self) -> Piece:
+        return Piece(
+            traceCuts=self._fake_cuts(),
+            innerCuts=None,
+            outerCuts=self._outer_cuts()
+        )    
