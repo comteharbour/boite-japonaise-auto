@@ -202,7 +202,7 @@ class SidePlateCoverBuilder:
     def fakeCutsDimentions(self) -> FakeCutDimensions:
         return FakeCutDimensions()
     
-    def _4corners(self, n: int) -> tuple:
+    def _4corners(self, n: int, count: int) -> tuple:
         initialDistance = self.fakeCutsDimentions.initialEdgeDistance
         traceWidth = parameters.traceCutWidth
         left = initialDistance + n * traceWidth
@@ -210,13 +210,19 @@ class SidePlateCoverBuilder:
         up = initialDistance + n * traceWidth
         down = self._height - initialDistance - n * traceWidth
 
-        return ((right, up), (right, down), (left, down), (left, up + traceWidth))
+        return (
+            (right, up),
+            (right, down),
+            (left, down),
+            (left, up + (0 if n == count - 1 else traceWidth))
+        )
 
     def _fake_cuts(self) -> Line:
         count = self.fakeCutsDimentions.passesCount
         corners = ((0, self.fakeCutsDimentions.initialEdgeDistance),)
         for n in range(count):
-            corners += self._4corners(n)
+            corners += self._4corners(n, count)
+        
         return Line.fromCoords(*corners)
 
     def build(self) -> Piece:
