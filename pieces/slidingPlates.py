@@ -61,11 +61,11 @@ class SlidingPlateBuilder:
 
     @property
     def _h1(self) -> float:
-        return parameters.coverWoodThickness + parameters.structuralWoodThickness + parameters.clearanceMargin
+        return parameters.coverWoodThickness + parameters.structuralWoodThickness
 
     @property
     def _h2(self) -> float:
-        return parameters.structuralWoodThickness + parameters.frictionMargin
+        return   parameters.clearanceMargin + parameters.structuralWoodThickness + parameters.frictionMargin
 
     @property
     def _h3(self) -> float:
