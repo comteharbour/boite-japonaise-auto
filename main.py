@@ -17,9 +17,9 @@ outerPlate2 = SlidingPlateBuilder(2, PlateType.OUTER).build().moveRightTo(outerP
 outerPlate3 = SlidingPlateBuilder(3, PlateType.OUTER).build().moveRightTo(outerPlate1).moveBelow(outerPlate2)
 outerPlate4 = SlidingPlateBuilder(4, PlateType.OUTER).build().moveBelow(outerPlate1)
 
-innerPlate1 = SlidingPlateBuilder(1, PlateType.INNER).build().moveBelow(outerPlate4)
-innerPlate2 = SlidingPlateBuilder(2, PlateType.INNER).build().placeUpLeftAtShape(innerPlate1).moveRightTo(innerPlate1)
-innerPlate3 = SlidingPlateBuilder(3, PlateType.INNER).build().placeUpLeftAtShape(innerPlate1).moveRightTo(innerPlate1).moveBelow(innerPlate2)
+innerPlate2 = SlidingPlateBuilder(2, PlateType.INNER).build().moveBelow(outerPlate4)
+innerPlate3 = SlidingPlateBuilder(3, PlateType.INNER).build().placeUpLeftAtShape(innerPlate2).moveBelow(innerPlate2)
+innerPlate1 = SlidingPlateBuilder(1, PlateType.INNER).build().placeUpLeftAtShape(innerPlate2).moveRightTo(innerPlate2)
 innerPlate4 = SlidingPlateBuilder(4, PlateType.INNER).build().placeUpLeftAtShape(innerPlate1).moveBelow(innerPlate1)
 
 midPlate1 = SlidingPlateBuilder(1, PlateType.MID).build().moveRightTo(outerPlate2)
@@ -59,12 +59,12 @@ sliderHeight2 = sliderHeight.moveBelow(sliderHeight1)
 sliderHeight3 = sliderHeight.moveBelow(sliderHeight2)
 sliderHeight4 = sliderHeight.moveBelow(sliderHeight3)
 
-slideCover1 = SlidingPlateBuilder(1, PlateType.COVER).build().placeUpLeftAtShape(innerPlate4).moveBelow(innerPlate3)
-slideCover2 = SlidingPlateBuilder(2, PlateType.COVER).build().placeUpLeftAtShape(slideCover1).moveRightTo(slideCover1)
-slideCover3 = SlidingPlateBuilder(3, PlateType.COVER).build().placeUpLeftAtShape(slideCover2).moveBelow(slideCover2)
+slideCover1 = SlidingPlateBuilder(1, PlateType.COVER).build().placeUpLeftAtShape(innerPlate3).moveBelow(innerPlate3)
+slideCover3 = SlidingPlateBuilder(3, PlateType.COVER).build().placeUpLeftAtShape(slideCover1).moveRightTo(slideCover1)
+slideCover2 = SlidingPlateBuilder(2, PlateType.COVER).build().placeUpLeftAtShape(slideCover3).moveBelow(slideCover3)
 slideCover4 = SlidingPlateBuilder(4, PlateType.COVER).build().placeUpLeftAtShape(slideCover1).moveBelow(slideCover1)
 
-sidePlateCover = SidePlateCoverBuilder().build().placeUpLeftAtShape(slideCover2).moveRightTo(slideCover2)
+sidePlateCover = SidePlateCoverBuilder().build().placeUpLeftAtShape(slideCover3).moveRightTo(slideCover3)
 sidePlateCover1 = sidePlateCover
 sidePlateCover2 = sidePlateCover.moveBelow(sidePlateCover1)
 
