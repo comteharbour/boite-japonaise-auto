@@ -27,7 +27,7 @@ class Parameters:
     coverPadding: float
 
 # plywood 1.6mm
-ply16parameters = Parameters(
+parameters = Parameters(
     fullLength=40,
     fullWidth=30.4,
     fullHeight=30,
@@ -46,7 +46,7 @@ ply16parameters = Parameters(
     clearanceMargin=1,
     holeEdgeMargin=3,
     cutWidth=0.2,
-    arrowLength=10,
+    arrowLength=5,
     traceFiguresWidth=3,
     traceCutWidth=1,
     gapBetweenPiecesOnCuttingPlate=1,
@@ -81,7 +81,7 @@ MDF3MMparameters = Parameters(
 )
 
 # base
-parameters = Parameters(
+baseParameters = Parameters(
     fullLength=76.8,
     fullWidth=51.6,
     fullHeight=50.6,

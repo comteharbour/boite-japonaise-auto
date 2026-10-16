@@ -130,12 +130,26 @@ class SlidingPlateBuilder:
         minimalSpaceBetweenHoles = parameters.holeEdgeMargin
 
         notEnoughSpaceBetweenHoles = (
-            widthBetweenHoles < minimalSpaceBetweenHoles
+            (
+                (
+                    self.plateType == PlateType.INNER
+                    or
+                    self.plateType == PlateType.OUTER
+                )
+                and
+                widthBetweenHoles < minimalSpaceBetweenHoles
+            )
             or
             lengthHeightBetweenHoles < minimalSpaceBetweenHoles
         )
 
         if(notEnoughSpaceBetweenHoles):
+            print((
+                self._xHoleTranslation(False, True),
+                self._xHoleTranslation(False, False),
+                self.plateType,
+                self.plateNumber
+            ))
             raise GeometryError(
                 f"Impossible sliding plate structure "
                 f"(width between holes = {widthBetweenHoles}, "
