@@ -96,13 +96,13 @@ class Piece:
     def moveBelow(self, otherPiece: Self) -> Self:
         newUpLeftCorner = Point(
             x=self.boundingBox.xMin,
-            y=otherPiece.boundingBox.yMax + parameters.gapBetweenPieces
+            y=otherPiece.boundingBox.yMax + parameters.gapBetweenPiecesOnCuttingPlate
         )
         return self.placeUpLeftAtPoint(newUpLeftCorner)
 
     def moveRightTo(self, otherPiece: Self) -> Self:
         newUpLeftCorner = Point(
-            x=otherPiece.boundingBox.xMax + parameters.gapBetweenPieces,
+            x=otherPiece.boundingBox.xMax + parameters.gapBetweenPiecesOnCuttingPlate,
             y=self.boundingBox.yMin
         )
         return self.placeUpLeftAtPoint(newUpLeftCorner)
