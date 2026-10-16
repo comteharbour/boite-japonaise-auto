@@ -7,13 +7,28 @@ from drawing import Point, Rectangle, Line, Circle, GeometryError, Group, SVGObj
 from .piece import Piece
 
 def _largeWidthHole(parameters=parameters) -> Rectangle:
-    width = parameters.fullWidth - 4 * parameters.structuralWoodThickness - 2 * parameters.coverWoodThickness - 4 * parameters.frictionMargin - 2 * parameters.holeEdgeMargin - parameters.cutWidth
+    width = (
+        parameters.fullWidth
+        - 4 * parameters.structuralWoodThickness
+        - 2 * parameters.coverWoodThickness
+        - 4 * parameters.frictionMargin
+        - 2 * parameters.holeEdgeMargin
+        - parameters.cutWidth
+    )
     height = parameters.structuralWoodThickness
     shape = Rectangle.fromCoords(width, height)
     return shape
 
 def _smallWidthHole(parameters=parameters) -> Rectangle:
-    width = parameters.fullWidth - 4 * parameters.structuralWoodThickness - 2 * parameters.coverWoodThickness - 4 * parameters.frictionMargin - 4 * parameters.holeEdgeMargin - parameters.cutWidth
+    width = (
+        parameters.fullWidth
+        - 4 * parameters.structuralWoodThickness
+        - 2 * parameters.coverWoodThickness
+        - 4 * parameters.frictionMargin
+        - 2 * parameters.holeEdgeMargin
+        - parameters.cutWidth
+        - parameters.asymetricAssemblerReduction
+    )
     height = parameters.structuralWoodThickness
     shape = Rectangle.fromCoords(width, height)
     return shape
@@ -148,7 +163,7 @@ class SlidingPlateBuilder:
 
     def _xHoleTranslation(self, downHole: bool, rightHole: bool) -> Point:
         translation = self._w1 + self._w2
-        if not(downHole) and self.plateNumber == 1 : translation += parameters.holeEdgeMargin
+        if not(downHole) and self.plateNumber == 1 : translation += parameters.asymetricAssemblerReduction / 2
         if rightHole: translation = self._baseWidth - (translation + parameters.tenonWidth - 2 * parameters.cutWidth)
         return translation
 
@@ -212,7 +227,6 @@ class SlidingPlateBuilder:
             case 3: return None
             case 4: return _squareTraceCentered() + originToCenter
 
-    # TODO : distinguer le placement et le nombre selon la plaque
     def _traceCoverWood(self) -> Group | None:
 
         if self.plateNumber == 4: return None

@@ -6,7 +6,7 @@ from elements.tenons import tenon
 
 def _build_sliding_plates_assembler(isBig: bool, parameters=parameters) -> Piece:
     w = parameters.fullWidth - 4 * (parameters.structuralWoodThickness + parameters.frictionMargin) - 2 * (parameters.coverWoodThickness + parameters.holeEdgeMargin + parameters.tenonWidth) + parameters.cutWidth
-    if not(isBig): w -= 2 * parameters.holeEdgeMargin
+    if not(isBig): w -= parameters.asymetricAssemblerReduction
     h = parameters.structuralWoodThickness + parameters.frictionMargin + parameters.cutWidth
     line = tenon(xStartLeft=True, yStartUp=False).concat(
         Line.movesFromOrigin((w,0))
