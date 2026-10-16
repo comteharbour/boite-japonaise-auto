@@ -49,14 +49,14 @@ assembler8 = buildSmallSlidingPlatesAssembler().moveRightTo(innerBox).moveBelow(
 
 sliderLength = buildLengthSlider().rotate90xtoy().placeUpLeftAtShape(innerBox).moveBelow(innerBox)
 sliderLength1 = sliderLength
-sliderLength2 = sliderLength.moveRightTo(sliderLength1)
+sliderLength2 = sliderLength.moveRightTo(sliderLength1).flipHorizontal()
 sliderLength3 = sliderLength.moveRightTo(sliderLength2)
-sliderLength4 = sliderLength.moveRightTo(sliderLength3)
+sliderLength4 = sliderLength.moveRightTo(sliderLength3).flipHorizontal()
 
 sliderHeight = buildHeightSlider().placeUpLeftAtShape(sidePlate2).moveBelow(sidePlate2)
-sliderHeight1 = sliderHeight
+sliderHeight1 = sliderHeight.flipVertical()
 sliderHeight2 = sliderHeight.moveBelow(sliderHeight1)
-sliderHeight3 = sliderHeight.moveBelow(sliderHeight2)
+sliderHeight3 = sliderHeight.moveBelow(sliderHeight2).flipVertical()
 sliderHeight4 = sliderHeight.moveBelow(sliderHeight3)
 
 slideCover1 = SlidingPlateBuilder(1, PlateType.COVER).build().placeUpLeftAtShape(innerPlate3).moveBelow(innerPlate3)
