@@ -37,7 +37,7 @@ class SlidingPlateBuilder:
 
     @property
     def _widthReductionForSliders(self) -> float:
-        return parameters.structuralWoodThickness + parameters.frictionMargin
+        return parameters.sliderWidth + parameters.sliderStopperWidth + parameters.frictionMargin
 
     @property
     def _heightReductionForOuterPlateThickness(self) -> float:
@@ -147,6 +147,7 @@ class SlidingPlateBuilder:
 
     def _xHoleTranslation(self, downHole: bool, rightHole: bool) -> Point:
         translation = self._widthReductionForSliders + parameters.holeEdgeMargin
+        if self.plateType == PlateType.MID: translation += parameters.sliderStopperWidth
         if not(downHole) and self.plateNumber == 1 : translation += parameters.asymetricAssemblerReduction / 2
         if rightHole: translation = self._baseWidth - (translation + parameters.tenonWidth - 2 * parameters.cutWidth)
         return translation
@@ -249,7 +250,7 @@ class SlidingPlateBuilder:
         if self.plateType == PlateType.MID: return self._longHoles()
         return self._shortHoles()
 
-    def _outerCuts(self) -> Rectangle:
+    def _outerCuts(self) -> SVGObject:
         width = self._plateWidth
         height = self._plateHeight
 
@@ -265,9 +266,20 @@ class SlidingPlateBuilder:
         if self.plateType == PlateType.COVER:
             width -= 2 * parameters.coverPadding
             height -= 2 * parameters.coverPadding
-        
-        rectangle = Rectangle.fromCoords(width, height)
-        return rectangle + Point(self._widthDifference, self._heightDifference)
+
+        if self.plateType == PlateType.MID:
+            outerCut = Line.movesFromOrigin(
+                (width + 2 * parameters.sliderStopperWidth, 0),
+                (0, parameters.sliderStopperLength),
+                (-parameters.sliderStopperWidth, 0),
+                (0, height - parameters.sliderStopperLength),
+                (-width, 0),
+                (0, -height + parameters.sliderStopperLength),
+                (-parameters.sliderStopperWidth, 0)
+            ).setClose(True)
+        else:
+            outerCut = Rectangle.fromCoords(width, height)
+        return outerCut + Point(self._widthDifference, self._heightDifference)
 
     def build(self):
         return Piece(

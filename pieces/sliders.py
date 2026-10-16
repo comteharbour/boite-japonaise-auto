@@ -10,9 +10,11 @@ def _trace_slider(slideOnLength: bool, parameters=parameters) -> Line:
     spacingLength = slider_spacer.spacingLength
     sliderLength = slider_spacer.totalLength
     sliderWidth = parameters.sliderWidth
+    stopperLength = parameters.sliderStopperLength
+    stopperWidth = parameters.sliderStopperWidth
     tenonLine = tenon(False, True)
     spacingLine = Line.movesFromOrigin((-spacingLength, 0))
-    slider = Line.movesFromOrigin((sliderLength, 0), (0, sliderWidth))
+    slider = Line.movesFromOrigin((stopperLength, 0), (0, stopperWidth), (sliderLength - stopperLength, 0), (0, sliderWidth))
     slider = slider.concat(tenonLine)
     for _ in range(spacingCount):
         slider = slider.concat(
