@@ -144,12 +144,6 @@ class SlidingPlateBuilder:
         )
 
         if(notEnoughSpaceBetweenHoles):
-            print((
-                self._xHoleTranslation(False, True),
-                self._xHoleTranslation(False, False),
-                self.plateType,
-                self.plateNumber
-            ))
             raise GeometryError(
                 f"Impossible sliding plate structure "
                 f"(width between holes = {widthBetweenHoles}, "
