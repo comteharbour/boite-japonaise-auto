@@ -6,33 +6,6 @@ from elements.fakeCuts import FakeCutDimensions
 from drawing import Point, Rectangle, Line, Circle, GeometryError, Group, SVGObject
 from .piece import Piece
 
-def _largeWidthHole(parameters=parameters) -> Rectangle:
-    width = (
-        parameters.fullWidth
-        - 4 * parameters.structuralWoodThickness
-        - 2 * parameters.coverWoodThickness
-        - 4 * parameters.frictionMargin
-        - 2 * parameters.holeEdgeMargin
-        - parameters.cutWidth
-    )
-    height = parameters.structuralWoodThickness
-    shape = Rectangle.fromCoords(width, height)
-    return shape
-
-def _smallWidthHole(parameters=parameters) -> Rectangle:
-    width = (
-        parameters.fullWidth
-        - 4 * parameters.structuralWoodThickness
-        - 2 * parameters.coverWoodThickness
-        - 4 * parameters.frictionMargin
-        - 2 * parameters.holeEdgeMargin
-        - parameters.cutWidth
-        - parameters.asymetricAssemblerReduction
-    )
-    height = parameters.structuralWoodThickness
-    shape = Rectangle.fromCoords(width, height)
-    return shape
-
 def _arrowTraceCentered(parameters=parameters) -> Group:
     l = parameters.arrowLength
     w = parameters.traceFiguresWidth
@@ -63,27 +36,19 @@ class SlidingPlateBuilder:
     plateType: PlateType
 
     @property
-    def _w1(self) -> float:
+    def _widthReductionForSliders(self) -> float:
         return parameters.structuralWoodThickness + parameters.frictionMargin
 
     @property
-    def _w2(self) -> float:
-        return parameters.holeEdgeMargin + parameters.cutWidth / 2
-
-    @property
-    def _w3(self) -> float:
-        return parameters.holeEdgeMargin
-
-    @property
-    def _h1(self) -> float:
+    def _heightReductionForOuterPlateThickness(self) -> float:
         return parameters.coverWoodThickness + parameters.structuralWoodThickness
 
     @property
-    def _h2(self) -> float:
+    def _heightReductionForMidPlateThickness(self) -> float:
         return   parameters.clearanceMargin + parameters.structuralWoodThickness + parameters.frictionMargin
 
     @property
-    def _h3(self) -> float:
+    def _heightReductionForInnerPlateThickness(self) -> float:
         return parameters.holeEdgeMargin + parameters.cutWidth / 2
 
     @property
@@ -98,8 +63,8 @@ class SlidingPlateBuilder:
     def _heightDifference(self) -> float:
         match self.plateType:
             case PlateType.OUTER: return 0
-            case PlateType.MID: return self._h1
-            case PlateType.INNER: return self._h1 + self._h2
+            case PlateType.MID: return self._heightReductionForOuterPlateThickness
+            case PlateType.INNER: return self._heightReductionForOuterPlateThickness + self._heightReductionForMidPlateThickness
             case PlateType.COVER: return parameters.coverPadding
 
     @property
@@ -116,7 +81,7 @@ class SlidingPlateBuilder:
     def _widthDifference(self) -> float:
         match self.plateType:
             case PlateType.OUTER: return 0
-            case PlateType.MID: return self._w1
+            case PlateType.MID: return self._widthReductionForSliders
             case PlateType.INNER: return 0
             case PlateType.COVER: return parameters.coverPadding
 
@@ -127,6 +92,25 @@ class SlidingPlateBuilder:
     @property
     def _plateHeight(self) -> float:
         return self._baseHeight - 2 * self._heightDifference
+
+    def _largeWidthHole(self, parameters=parameters) -> Rectangle:
+        width = (
+            self._plateWidth
+            - 2 * parameters.holeEdgeMargin
+        )
+        height = parameters.structuralWoodThickness
+        shape = Rectangle.fromCoords(width, height)
+        return shape
+
+    def _smallWidthHole(self, parameters=parameters) -> Rectangle:
+        width = (
+            self._plateWidth
+            - 2 * parameters.holeEdgeMargin
+            - parameters.asymetricAssemblerReduction
+        )
+        height = parameters.structuralWoodThickness
+        shape = Rectangle.fromCoords(width, height)
+        return shape
 
     def __post_init__(self):
         holeBoundingBox = tenonHole(
@@ -162,13 +146,13 @@ class SlidingPlateBuilder:
         
 
     def _xHoleTranslation(self, downHole: bool, rightHole: bool) -> Point:
-        translation = self._w1 + self._w2
+        translation = self._widthReductionForSliders + parameters.holeEdgeMargin
         if not(downHole) and self.plateNumber == 1 : translation += parameters.asymetricAssemblerReduction / 2
         if rightHole: translation = self._baseWidth - (translation + parameters.tenonWidth - 2 * parameters.cutWidth)
         return translation
 
     def _yHoleTranslation(self, downHole: bool) -> Point:
-        translation = self._h1 + self._h2 + self._h3
+        translation = self._heightReductionForOuterPlateThickness + self._heightReductionForMidPlateThickness + self._heightReductionForInnerPlateThickness
         if downHole: translation = self._baseHeight - (translation + parameters.structuralWoodThickness + self._heightDownCorrection)
         return translation
     
@@ -180,8 +164,8 @@ class SlidingPlateBuilder:
         return Group((upLeft, upRight, downLeft, downRight))
 
     def _longHoles(self) -> Group:
-        upLeft = _smallWidthHole() + (Point(self._xHoleTranslation(False, False), self._yHoleTranslation(False))) if self.plateNumber == 1 else _largeWidthHole() + (Point(self._xHoleTranslation(False, False), self._yHoleTranslation(False)))
-        downLeft = _largeWidthHole() + (Point(self._xHoleTranslation(True, False), self._yHoleTranslation(True)))
+        upLeft = self._smallWidthHole() + (Point(self._xHoleTranslation(False, False), self._yHoleTranslation(False))) if self.plateNumber == 1 else self._largeWidthHole() + (Point(self._xHoleTranslation(False, False), self._yHoleTranslation(False)))
+        downLeft = self._largeWidthHole() + (Point(self._xHoleTranslation(True, False), self._yHoleTranslation(True)))
         return Group((upLeft, downLeft))
 
     def _traceValidation(self):

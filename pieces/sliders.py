@@ -9,10 +9,10 @@ def _trace_slider(slideOnLength: bool, parameters=parameters) -> Line:
     spacingCount = slider_spacer.spacingCount
     spacingLength = slider_spacer.spacingLength
     sliderLength = slider_spacer.totalLength
-    sliderHeight = parameters.structuralWoodThickness + parameters.frictionMargin
+    sliderWidth = parameters.sliderWidth
     tenonLine = tenon(False, True)
     spacingLine = Line.movesFromOrigin((-spacingLength, 0))
-    slider = Line.movesFromOrigin((sliderLength, 0), (0, sliderHeight))
+    slider = Line.movesFromOrigin((sliderLength, 0), (0, sliderWidth))
     slider = slider.concat(tenonLine)
     for _ in range(spacingCount):
         slider = slider.concat(

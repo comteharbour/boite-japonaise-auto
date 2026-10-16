@@ -13,6 +13,7 @@ class Parameters:
     tenonSpacerTarget: float
     tenonSpacerMinimalLength: float
     asymetricAssemblerReduction: float
+    sliderWidth: float
     frictionMargin: float
     clearanceMargin: float
     holeEdgeMargin: float
@@ -24,7 +25,7 @@ class Parameters:
     coverPadding: float
 
 # plywood 1.6mm
-parameters = Parameters(
+ply16parameters = Parameters(
     fullLength=40,
     fullWidth=30.4,
     fullHeight=30,
@@ -36,6 +37,7 @@ parameters = Parameters(
     tenonSpacerTarget=6,
     tenonSpacerMinimalLength=3,
     asymetricAssemblerReduction=2,
+    sliderWidth=2,
     frictionMargin=0.2,
     clearanceMargin=1,
     holeEdgeMargin=3,
@@ -47,6 +49,7 @@ parameters = Parameters(
     coverPadding=0
 )
 
+# MDF 3mm
 MDF3MMparameters = Parameters(
     fullLength=50,
     fullWidth=50,
@@ -59,6 +62,7 @@ MDF3MMparameters = Parameters(
     tenonSpacerTarget=4,
     tenonSpacerMinimalLength=3,
     asymetricAssemblerReduction=6,
+    sliderWidth=2,
     frictionMargin=0.2,
     clearanceMargin=1,
     holeEdgeMargin=3,
@@ -70,7 +74,8 @@ MDF3MMparameters = Parameters(
     coverPadding=0.1
 )
 
-baseParameters = Parameters(
+# base
+parameters = Parameters(
     fullLength=76.8,
     fullWidth=51.6,
     fullHeight=50.6,
@@ -82,6 +87,7 @@ baseParameters = Parameters(
     tenonSpacerTarget=8,
     tenonSpacerMinimalLength=4,
     asymetricAssemblerReduction=6,
+    sliderWidth=2,
     frictionMargin=0.2,
     clearanceMargin=1,
     holeEdgeMargin=3,
