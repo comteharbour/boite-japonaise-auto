@@ -41,11 +41,11 @@ class SlidingPlateBuilder:
 
     @property
     def _heightReductionForOuterPlateThickness(self) -> float:
-        return parameters.coverWoodThickness + parameters.structuralWoodThickness
+        return parameters.coverWoodThickness + parameters.structuralWoodThickness + parameters.clearanceMargin
 
     @property
     def _heightReductionForMidPlateThickness(self) -> float:
-        return   parameters.clearanceMargin + parameters.structuralWoodThickness + parameters.frictionMargin
+        return parameters.structuralWoodThickness + parameters.frictionMargin
 
     @property
     def _heightReductionForInnerPlateThickness(self) -> float:
@@ -151,18 +151,19 @@ class SlidingPlateBuilder:
                 f"minimal space between holes = {minimalSpaceBetweenHoles}) "
             )
 
-        
+
 
     def _xHoleTranslation(self, downHole: bool, rightHole: bool) -> Point:
         translation = self._widthReductionForSliders + parameters.holeEdgeMargin
         if self.plateType == PlateType.MID: translation += parameters.sliderStopperWidth
-        if not(downHole) and self.plateNumber == 1 : translation += parameters.asymetricAssemblerReduction / 2
+        if not(downHole): translation += parameters.asymetricAssemblerReduction / 2
         if rightHole: translation = self._baseWidth - (translation + parameters.tenonWidth - 2 * parameters.cutWidth)
         return translation
 
     def _yHoleTranslation(self, downHole: bool) -> Point:
         translation = self._heightReductionForOuterPlateThickness + self._heightReductionForMidPlateThickness + self._heightReductionForInnerPlateThickness
         if downHole: translation = self._baseHeight - (translation + parameters.structuralWoodThickness + self._heightDownCorrection)
+        if self.plateType is PlateType.MID: translation += parameters.clearanceMargin
         return translation
     
     def _shortHoles(self) -> Group:
@@ -173,7 +174,7 @@ class SlidingPlateBuilder:
         return Group((upLeft, upRight, downLeft, downRight))
 
     def _longHoles(self) -> Group:
-        upLeft = self._smallWidthHole() + (Point(self._xHoleTranslation(False, False), self._yHoleTranslation(False))) if self.plateNumber == 1 else self._largeWidthHole() + (Point(self._xHoleTranslation(False, False), self._yHoleTranslation(False)))
+        upLeft = self._smallWidthHole() + (Point(self._xHoleTranslation(False, False), self._yHoleTranslation(False)))
         downLeft = self._largeWidthHole() + (Point(self._xHoleTranslation(True, False), self._yHoleTranslation(True)))
         return Group((upLeft, downLeft))
 
