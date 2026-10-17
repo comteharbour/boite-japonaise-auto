@@ -164,7 +164,6 @@ class SlidingPlateBuilder:
         translation = self._heightReductionForOuterPlateThickness + self._heightReductionForMidPlateThickness + self._heightReductionForInnerPlateThickness
         if bigSide: translation = self._baseHeight - (translation + parameters.structuralWoodThickness + self._heightDownCorrection)
         if self.plateNumber == 3 and bigSide: translation -= parameters.lengthSlidingPlateAsymetricOffset
-        if self.plateType is PlateType.MID: translation += parameters.clearanceMargin
         return translation
     
     def _shortHoles(self) -> Group:
@@ -287,6 +286,10 @@ class SlidingPlateBuilder:
                 (0, -height + parameters.slidingPlatesStopperLength),
                 (-parameters.sliderStopperWidth, 0)
             ).setClose(True)
+            if self.plateNumber <= 2:
+                outerCut -= Point(0, parameters.clearanceMargin)
+            else:
+                outerCut += Point(0, parameters.clearanceMargin)
         else:
             outerCut = Rectangle.fromCoords(width, height)
         return outerCut + Point(self._widthDifference, self._heightDifference)
