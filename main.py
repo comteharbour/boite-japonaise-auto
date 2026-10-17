@@ -38,15 +38,16 @@ sidePlate2 = sidePlate.flipVertical().moveBelow(sidePlate1)
 
 innerBox = InnerBoxBuilder().build().placeUpLeftAtOrigin().moveRightTo(sidePlate1)
 
-assembler = buildBigSlidingPlatesAssembler().moveRightTo(innerBox)
-assembler1 = assembler
-assembler2 = assembler.moveBelow(assembler1)
-assembler3 = assembler.moveBelow(assembler2)
-assembler4 = assembler.moveBelow(assembler3)
-assembler5 = assembler.moveBelow(assembler4)
-assembler6 = assembler.moveBelow(assembler5)
-assembler7 = assembler.moveBelow(assembler6)
-assembler8 = buildSmallSlidingPlatesAssembler().moveRightTo(innerBox).moveBelow(assembler7)
+bigAssembler = buildBigSlidingPlatesAssembler().moveRightTo(innerBox)
+assembler1 = bigAssembler
+assembler2 = bigAssembler.moveBelow(assembler1)
+assembler3 = bigAssembler.moveBelow(assembler2)
+assembler4 = bigAssembler.moveBelow(assembler3)
+smallAssembler = buildSmallSlidingPlatesAssembler().moveRightTo(innerBox).moveBelow(assembler4)
+assembler5 = smallAssembler
+assembler6 = smallAssembler.moveBelow(assembler5)
+assembler7 = smallAssembler.moveBelow(assembler6)
+assembler8 = smallAssembler.moveBelow(assembler7)
 
 sliderTop1 = buildTopSlider().rotate90xtoy().placeUpLeftAtShape(innerBox).moveBelow(innerBox)
 sliderTop2 = sliderTop1.moveRightTo(sliderTop1).flipHorizontal()
