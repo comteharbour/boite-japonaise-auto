@@ -21,7 +21,7 @@ def _trace_slider(plateSlidesOpen: bool, slideOnLength: bool, parameters=paramet
         openSideLength = (
             parameters.coverWoodThickness
             + parameters.structuralWoodThickness
-            + parameters.frictionMargin
+            + parameters.clearanceMargin
             + parameters.slidingPlatesStopperLength
         )
     stopperLength = (
