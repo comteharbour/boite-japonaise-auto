@@ -153,16 +153,16 @@ class SlidingPlateBuilder:
 
 
 
-    def _xHoleTranslation(self, downHole: bool, rightHole: bool) -> Point:
+    def _xHoleTranslation(self, smallSide: bool, rightHole: bool) -> Point:
         translation = self._widthReductionForSliders + parameters.holeEdgeMargin
         if self.plateType == PlateType.MID: translation += parameters.sliderStopperWidth
-        if not(downHole): translation += parameters.asymetricAssemblerReduction / 2
+        if not(smallSide): translation += parameters.asymetricAssemblerReduction / 2
         if rightHole: translation = self._baseWidth - (translation + parameters.tenonWidth - 2 * parameters.cutWidth)
         return translation
 
-    def _yHoleTranslation(self, downHole: bool) -> Point:
+    def _yHoleTranslation(self, smallSide: bool) -> Point:
         translation = self._heightReductionForOuterPlateThickness + self._heightReductionForMidPlateThickness + self._heightReductionForInnerPlateThickness
-        if downHole: translation = self._baseHeight - (translation + parameters.structuralWoodThickness + self._heightDownCorrection)
+        if smallSide: translation = self._baseHeight - (translation + parameters.structuralWoodThickness + self._heightDownCorrection)
         if self.plateType is PlateType.MID: translation += parameters.clearanceMargin
         return translation
     
@@ -279,11 +279,11 @@ class SlidingPlateBuilder:
         if self.plateType == PlateType.MID:
             outerCut = Line.movesFromOrigin(
                 (width + 2 * parameters.sliderStopperWidth, 0),
-                (0, parameters.sliderStopperMinimalLength),
+                (0, parameters.slidingPlatesStopperLength),
                 (-parameters.sliderStopperWidth, 0),
-                (0, height - parameters.sliderStopperMinimalLength),
+                (0, height - parameters.slidingPlatesStopperLength),
                 (-width, 0),
-                (0, -height + parameters.sliderStopperMinimalLength),
+                (0, -height + parameters.slidingPlatesStopperLength),
                 (-parameters.sliderStopperWidth, 0)
             ).setClose(True)
         else:

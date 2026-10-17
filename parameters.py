@@ -14,7 +14,7 @@ class Parameters:
     tenonSpacerMinimalLength: float
     asymetricAssemblerReduction: float
     sliderWidth: float
-    sliderStopperMinimalLength: float
+    slidingPlatesStopperLength: float
     sliderStopperWidth: float
     frictionMargin: float
     clearanceMargin: float
@@ -39,7 +39,7 @@ parameters = Parameters(
     tenonSpacerMinimalLength=4,
     asymetricAssemblerReduction=6,
     sliderWidth=3,
-    sliderStopperMinimalLength=3,
+    slidingPlatesStopperLength=5,
     sliderStopperWidth=1.5,
     frictionMargin=0.2,
     clearanceMargin=1,
@@ -66,7 +66,7 @@ PLY16parameters = Parameters(
     tenonSpacerMinimalLength=3,
     asymetricAssemblerReduction=2,
     sliderWidth=2,
-    sliderStopperMinimalLength=2,
+    slidingPlatesStopperLength=2,
     sliderStopperWidth=1,
     frictionMargin=0.2,
     clearanceMargin=1,
@@ -93,7 +93,7 @@ MDF3MMparameters = Parameters(
     tenonSpacerMinimalLength=3,
     asymetricAssemblerReduction=6,
     sliderWidth=2,
-    sliderStopperMinimalLength=2,
+    slidingPlatesStopperLength=2,
     sliderStopperWidth=1,
     frictionMargin=0.2,
     clearanceMargin=1,
@@ -120,7 +120,7 @@ baseParameters = Parameters(
     tenonSpacerMinimalLength=4,
     asymetricAssemblerReduction=6,
     sliderWidth=3,
-    sliderStopperMinimalLength=2,
+    slidingPlatesStopperLength=2,
     sliderStopperWidth=1,
     frictionMargin=0.2,
     clearanceMargin=1,
