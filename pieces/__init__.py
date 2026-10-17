@@ -1,6 +1,6 @@
 from .innerBox import InnerBoxBuilder
 from .sidePlates import SidePlateBuilder, SidePlateCoverBuilder
-from .sliders import buildLengthSlider, buildHeightSlider
+from .sliders import buildTopSlider, buildBotSlider, buildSideSlider
 from .slidingPlates import SlidingPlateBuilder, PlateType
 from .slidingPlatesAssemblers import buildBigSlidingPlatesAssembler, buildSmallSlidingPlatesAssembler
 
@@ -8,8 +8,9 @@ __all__ = [
     "InnerBoxBuilder",
     "SidePlateBuilder",
     "SidePlateCoverBuilder",
-    "buildHeightSlider",
-    "buildLengthSlider",
+    "buildTopSlider",
+    "buildBotSlider",
+    "buildSideSlider",
     "SlidingPlateBuilder",
     "PlateType",
     "buildBigSlidingPlatesAssembler",

@@ -8,8 +8,9 @@ from pieces import (
     PlateType,
     buildBigSlidingPlatesAssembler,
     buildSmallSlidingPlatesAssembler,
-    buildLengthSlider,
-    buildHeightSlider
+    buildTopSlider,
+    buildBotSlider,
+    buildSideSlider
 )
 
 outerPlate1 = SlidingPlateBuilder(1, PlateType.OUTER).build()
@@ -47,17 +48,16 @@ assembler6 = assembler.moveBelow(assembler5)
 assembler7 = assembler.moveBelow(assembler6)
 assembler8 = buildSmallSlidingPlatesAssembler().moveRightTo(innerBox).moveBelow(assembler7)
 
-sliderLength = buildLengthSlider().rotate90xtoy().placeUpLeftAtShape(innerBox).moveBelow(innerBox)
-sliderLength1 = sliderLength
-sliderLength2 = sliderLength.moveRightTo(sliderLength1).flipHorizontal()
-sliderLength3 = sliderLength.moveRightTo(sliderLength2)
-sliderLength4 = sliderLength.moveRightTo(sliderLength3).flipHorizontal()
+sliderTop1 = buildTopSlider().rotate90xtoy().placeUpLeftAtShape(innerBox).moveBelow(innerBox)
+sliderTop2 = sliderTop1.moveRightTo(sliderTop1).flipHorizontal()
+sliderBot1 = buildBotSlider().rotate90xtoy().placeUpLeftAtShape(sliderTop2).moveRightTo(sliderTop2)
+sliderBot2 = sliderBot1.moveRightTo(sliderBot1).flipHorizontal()
 
-sliderHeight = buildHeightSlider().placeUpLeftAtShape(sidePlate2).moveBelow(sidePlate2)
-sliderHeight1 = sliderHeight.flipVertical()
-sliderHeight2 = sliderHeight.moveBelow(sliderHeight1)
-sliderHeight3 = sliderHeight.moveBelow(sliderHeight2).flipVertical()
-sliderHeight4 = sliderHeight.moveBelow(sliderHeight3)
+sliderSide = buildSideSlider().placeUpLeftAtShape(sidePlate2).moveBelow(sidePlate2)
+sliderSide1 = sliderSide.flipVertical()
+sliderSide2 = sliderSide.moveBelow(sliderSide1)
+sliderSide3 = sliderSide.moveBelow(sliderSide2).flipVertical()
+sliderSide4 = sliderSide.moveBelow(sliderSide3)
 
 slideCover1 = SlidingPlateBuilder(1, PlateType.COVER).build().placeUpLeftAtShape(innerPlate3).moveBelow(innerPlate3)
 slideCover3 = SlidingPlateBuilder(3, PlateType.COVER).build().placeUpLeftAtShape(slideCover1).moveRightTo(slideCover1)
@@ -94,14 +94,14 @@ try:
             assembler6.getSVG(),
             assembler7.getSVG(),
             assembler8.getSVG(),
-            sliderLength1.getSVG(),
-            sliderLength2.getSVG(),
-            sliderLength3.getSVG(),
-            sliderLength4.getSVG(),
-            sliderHeight1.getSVG(),
-            sliderHeight2.getSVG(),
-            sliderHeight3.getSVG(),
-            sliderHeight4.getSVG(),
+            sliderTop1.getSVG(),
+            sliderTop2.getSVG(),
+            sliderBot1.getSVG(),
+            sliderBot2.getSVG(),
+            sliderSide1.getSVG(),
+            sliderSide2.getSVG(),
+            sliderSide3.getSVG(),
+            sliderSide4.getSVG(),
             slideCover1.getSVG(),
             slideCover2.getSVG(),
             slideCover3.getSVG(),

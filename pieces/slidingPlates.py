@@ -278,11 +278,11 @@ class SlidingPlateBuilder:
         if self.plateType == PlateType.MID:
             outerCut = Line.movesFromOrigin(
                 (width + 2 * parameters.sliderStopperWidth, 0),
-                (0, parameters.sliderStopperLength),
+                (0, parameters.sliderStopperMinimalLength),
                 (-parameters.sliderStopperWidth, 0),
-                (0, height - parameters.sliderStopperLength),
+                (0, height - parameters.sliderStopperMinimalLength),
                 (-width, 0),
-                (0, -height + parameters.sliderStopperLength),
+                (0, -height + parameters.sliderStopperMinimalLength),
                 (-parameters.sliderStopperWidth, 0)
             ).setClose(True)
         else:
