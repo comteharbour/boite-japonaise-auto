@@ -16,6 +16,7 @@ class Parameters:
     sliderWidth: float
     slidingPlatesStopperLength: float
     sliderStopperWidth: float
+    lengthSlidingPlateAsymetricOffset: float
     frictionMargin: float
     clearanceMargin: float
     holeEdgeMargin: float
@@ -41,6 +42,7 @@ parameters = Parameters(
     sliderWidth=3,
     slidingPlatesStopperLength=5,
     sliderStopperWidth=1.5,
+    lengthSlidingPlateAsymetricOffset=3,
     frictionMargin=0.2,
     clearanceMargin=1,
     holeEdgeMargin=3,
@@ -68,6 +70,7 @@ PLY16parameters = Parameters(
     sliderWidth=2,
     slidingPlatesStopperLength=2,
     sliderStopperWidth=1,
+    lengthSlidingPlateAsymetricOffset=1,
     frictionMargin=0.2,
     clearanceMargin=1,
     holeEdgeMargin=3,
@@ -95,6 +98,7 @@ MDF3MMparameters = Parameters(
     sliderWidth=2,
     slidingPlatesStopperLength=2,
     sliderStopperWidth=1,
+    lengthSlidingPlateAsymetricOffset=3,
     frictionMargin=0.2,
     clearanceMargin=1,
     holeEdgeMargin=3,
@@ -122,6 +126,7 @@ baseParameters = Parameters(
     sliderWidth=3,
     slidingPlatesStopperLength=2,
     sliderStopperWidth=1,
+    lengthSlidingPlateAsymetricOffset=3,
     frictionMargin=0.2,
     clearanceMargin=1,
     holeEdgeMargin=3,

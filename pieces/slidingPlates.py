@@ -153,16 +153,17 @@ class SlidingPlateBuilder:
 
 
 
-    def _xHoleTranslation(self, smallSide: bool, rightHole: bool) -> Point:
+    def _xHoleTranslation(self, bigSide: bool, rightHole: bool) -> Point:
         translation = self._widthReductionForSliders + parameters.holeEdgeMargin
         if self.plateType == PlateType.MID: translation += parameters.sliderStopperWidth
-        if not(smallSide): translation += parameters.asymetricAssemblerReduction / 2
+        if not(bigSide): translation += parameters.asymetricAssemblerReduction / 2
         if rightHole: translation = self._baseWidth - (translation + parameters.tenonWidth - 2 * parameters.cutWidth)
         return translation
 
-    def _yHoleTranslation(self, smallSide: bool) -> Point:
+    def _yHoleTranslation(self, bigSide: bool) -> Point:
         translation = self._heightReductionForOuterPlateThickness + self._heightReductionForMidPlateThickness + self._heightReductionForInnerPlateThickness
-        if smallSide: translation = self._baseHeight - (translation + parameters.structuralWoodThickness + self._heightDownCorrection)
+        if bigSide: translation = self._baseHeight - (translation + parameters.structuralWoodThickness + self._heightDownCorrection)
+        if self.plateNumber == 3 and bigSide: translation -= parameters.lengthSlidingPlateAsymetricOffset
         if self.plateType is PlateType.MID: translation += parameters.clearanceMargin
         return translation
     
