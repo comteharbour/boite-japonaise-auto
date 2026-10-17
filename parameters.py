@@ -26,8 +26,34 @@ class Parameters:
     gapBetweenPiecesOnCuttingPlate: float
     coverPadding: float
 
-# plywood 1.6mm
 parameters = Parameters(
+    fullLength=76.8,
+    fullWidth=51.6,
+    fullHeight=50.6,
+    structuralWoodThickness=3.8,
+    coverWoodThickness=0,
+    tenonWidth=8,
+    tenonBevelHeight=1,
+    tenonLengthMargin=0.4,
+    tenonSpacerTarget=8,
+    tenonSpacerMinimalLength=4,
+    asymetricAssemblerReduction=6,
+    sliderWidth=3,
+    sliderStopperLength=3,
+    sliderStopperWidth=1.5,
+    frictionMargin=0.2,
+    clearanceMargin=1,
+    holeEdgeMargin=3,
+    cutWidth=0.2,
+    arrowLength=20,
+    traceFiguresWidth=4,
+    traceCutWidth=1,
+    gapBetweenPiecesOnCuttingPlate=1,
+    coverPadding=0
+)
+
+# plywood 1.6mm
+PLY16parameters = Parameters(
     fullLength=40,
     fullWidth=30.4,
     fullHeight=30,
